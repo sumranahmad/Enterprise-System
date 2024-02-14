@@ -1,0 +1,73 @@
+1-CREATE TABLE [dbo].[AddStudent] (
+    [stuid]   INT           IDENTITY (1, 1) NOT NULL,
+    [sname]   VARCHAR (250) NOT NULL,
+    [enroll]  VARCHAR (250) NOT NULL,
+    [dep]     VARCHAR (250) NOT NULL,
+    [sem]     VARCHAR (250) NOT NULL,
+    [contact] BIGINT        NOT NULL,
+    [email]   NCHAR (250)   NOT NULL,
+    PRIMARY KEY CLUSTERED ([stuid] ASC)
+);
+
+2-CREATE TABLE [dbo].[Book] (
+    [id]               INT             IDENTITY (1, 1) NOT NULL,
+    [title]            VARCHAR (255)   NOT NULL,
+    [price]            DECIMAL (10, 2) NOT NULL,
+    [author]           VARCHAR (255)   NOT NULL,
+    [isbn]             VARCHAR (17)    NOT NULL,
+    [total_copies]     INT             NOT NULL,
+    [available_copies] INT             NOT NULL,
+    PRIMARY KEY CLUSTERED ([id] ASC),
+    UNIQUE NONCLUSTERED ([isbn] ASC)
+);
+
+3-CREATE TABLE [dbo].[IRBook] (
+    [id]               INT            IDENTITY (1, 1) NOT NULL,
+    [std_enroll]       VARCHAR (250)  NOT NULL,
+    [std_name]         VARCHAR (250)  NOT NULL,
+    [std_dep]          VARCHAR (250)  NOT NULL,
+    [std_sem]          VARCHAR (250)  NOT NULL,
+    [std_contact]      BIGINT         NOT NULL,
+    [book_name]        VARCHAR (1250) NOT NULL,
+    [book_issue_date]  VARCHAR (250)  NOT NULL,
+    [book_return_date] VARCHAR (250)  NULL,
+    PRIMARY KEY CLUSTERED ([id] ASC)
+);
+
+4-CREATE TABLE [dbo].[login] (
+    [ID]        BIGINT         IDENTITY (1, 1) NOT NULL,
+    [Username]  NVARCHAR (255) NOT NULL,
+    [Password]  NVARCHAR (255) NOT NULL,
+    [enroll_no] NVARCHAR (255) NULL,
+    PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+5-CREATE TABLE [dbo].[LoginRoles] (
+    [id]      INT    NOT NULL,
+    [user_id] BIGINT NULL,
+    [role_id] INT    NULL,
+    PRIMARY KEY CLUSTERED ([id] ASC),
+    FOREIGN KEY ([user_id]) REFERENCES [dbo].[login] ([ID]),
+    FOREIGN KEY ([role_id]) REFERENCES [dbo].[Roles] ([Role_id])
+);
+
+6-CREATE TABLE [dbo].[Permission] (
+    [permission_id]          INT           NOT NULL,
+    [permission_description] VARCHAR (255) NULL,
+    PRIMARY KEY CLUSTERED ([permission_id] ASC)
+);
+
+7-CREATE TABLE [dbo].[RolePermission] (
+    [id]            INT NOT NULL,
+    [role_id]       INT NULL,
+    [permission_id] INT NULL,
+    PRIMARY KEY CLUSTERED ([id] ASC),
+    FOREIGN KEY ([role_id]) REFERENCES [dbo].[Roles] ([Role_id]),
+    FOREIGN KEY ([permission_id]) REFERENCES [dbo].[Permission] ([permission_id])
+);
+
+8-CREATE TABLE [dbo].[Roles] (
+    [Role_id] INT           NOT NULL,
+    [Role]    VARCHAR (255) NULL,
+    PRIMARY KEY CLUSTERED ([Role_id] ASC)
+);
